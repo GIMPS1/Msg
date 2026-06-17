@@ -1,0 +1,53 @@
+name: Unpack Project ZIP
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Find uploaded project zip
+        id: findzip
+        run: |
+          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip" | head -n 1)
+          if [ -z "$ZIP_FILE" ]; then
+            echo "No ZIP file found in repo root. Upload the project ZIP first."
+            exit 1
+          fi
+          echo "zip=$ZIP_FILE" >> "$GITHUB_OUTPUT"
+
+      - name: Unzip project into repo
+        run: |
+          rm -rf /tmp/project_unpack
+          mkdir -p /tmp/project_unpack
+          unzip -q "${{ steps.findzip.outputs.zip }}" -d /tmp/project_unpack
+
+          # If ZIP contains one top-level folder, use that folder as source.
+          TOP_LEVEL_COUNT=$(find /tmp/project_unpack -mindepth 1 -maxdepth 1 | wc -l)
+          if [ "$TOP_LEVEL_COUNT" -eq 1 ] && [ -d "$(find /tmp/project_unpack -mindepth 1 -maxdepth 1)" ]; then
+            SRC="$(find /tmp/project_unpack -mindepth 1 -maxdepth 1)"
+          else
+            SRC="/tmp/project_unpack"
+          fi
+
+          rsync -a "$SRC"/ ./ --exclude '.git'
+          rm -f "${{ steps.findzip.outputs.zip }}"
+
+      - name: Commit unpacked files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Unpack project files"
+            git push
+          fi
