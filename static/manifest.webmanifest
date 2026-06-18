@@ -1,0 +1,14 @@
+{
+  "name": "Wurzen Secure",
+  "short_name": "W Secure",
+  "description": "Private invite-only encrypted messaging.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#111827",
+  "orientation": "portrait-primary",
+  "icons": [
+    {"src":"/static/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}

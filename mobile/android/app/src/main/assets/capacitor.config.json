@@ -1,0 +1,14 @@
+{
+	"appId": "app.privmsg.secure",
+	"appName": "PrivMsg",
+	"webDir": "../static",
+	"server": {
+		"url": "https://YOUR-DOMAIN-HERE",
+		"cleartext": false
+	},
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 800
+		}
+	}
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PrivMsg</string>
+    <string name="title_activity_main">PrivMsg</string>
+    <string name="package_name">app.privmsg.secure</string>
+    <string name="custom_url_scheme">app.privmsg.secure</string>
+</resources>

@@ -1,0 +1,13 @@
+{
+  "name": "PrivMsg Secure Messenger",
+  "short_name": "PrivMsg",
+  "description": "Private invite-only encrypted messaging",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#10141c",
+  "theme_color": "#405cff",
+  "icons": [
+    {"src": "/static/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "wurzen-secure-mobile",
+  "version": "0.2.0",
+  "private": true,
+  "scripts": {
+    "add:android": "npx cap add android",
+    "sync": "npx cap sync android",
+    "open:android": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "latest",
+    "@capacitor/cli": "latest",
+    "@capacitor/core": "latest"
+  },
+  "devDependencies": {}
+}

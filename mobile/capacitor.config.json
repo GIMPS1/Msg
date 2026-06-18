@@ -1,0 +1,12 @@
+{
+  "appId": "secure.wurzen.messaging",
+  "appName": "Wurzen Secure",
+  "webDir": "../static",
+  "server": {
+    "url": "https://YOUR-DOMAIN-HERE",
+    "cleartext": false
+  },
+  "plugins": {
+    "SplashScreen": {"launchShowDuration": 700, "backgroundColor": "#0b1020"}
+  }
+}

@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Wurzen Secure</title>
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Private invite-only encrypted messaging.">
+  <link rel="manifest" href="/static/manifest.webmanifest">
+  <link rel="icon" href="/static/icon.svg">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">WS</div>
+        <div>
+          <h1>Wurzen Secure</h1>
+          <p>Private encrypted messaging</p>
+        </div>
+      </div>
+      <div class="session-pill" id="who">Locked</div>
+    </header>
+
+    <section id="auth" class="auth-layout">
+      <div class="hero card">
+        <span class="eyebrow">Closed network</span>
+        <h2>Secure messaging for approved members only.</h2>
+        <p>Invite-only accounts, encrypted message payloads, admin approval, private conversations and mobile-ready PWA/APK support.</p>
+        <div class="trust-row">
+          <span>End-to-end passphrase encryption</span>
+          <span>Authorised users only</span>
+          <span>Push-ready mobile app</span>
+        </div>
+      </div>
+
+      <div class="card auth-card">
+        <div class="tabs">
+          <button class="tab active" data-tab="loginPanel">Login</button>
+          <button class="tab" data-tab="registerPanel">Register</button>
+        </div>
+
+        <div id="loginPanel" class="panel active">
+          <label>Username<input id="loginUser" autocomplete="username" placeholder="admin"></label>
+          <label>Password<input id="loginPass" type="password" autocomplete="current-password" placeholder="Your password"></label>
+          <button class="primary" onclick="login()">Unlock</button>
+          <p class="muted">First run admin: <b>admin</b> / <b>change-this-admin-password</b></p>
+        </div>
+
+        <div id="registerPanel" class="panel">
+          <label>Invite code<input id="invite" placeholder="Paste invite code"></label>
+          <label>Username<input id="regUser" autocomplete="username" placeholder="newuser"></label>
+          <label>Display name<input id="regName" placeholder="Barry"></label>
+          <label>Password<input id="regPass" type="password" autocomplete="new-password" placeholder="Minimum 10 characters"></label>
+          <button class="primary" onclick="register()">Request access</button>
+          <p class="muted">New accounts need admin approval before login.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="app" hidden>
+      <div class="mobile-actions">
+        <button onclick="togglePanel('side')">Chats</button>
+        <button onclick="togglePanel('adminPanel')" id="adminMobileBtn" hidden>Admin</button>
+        <button onclick="logout()">Logout</button>
+      </div>
+
+      <div class="messenger-grid">
+        <aside id="side" class="card sidebar">
+          <div class="section-head">
+            <div>
+              <h2>Chats</h2>
+              <p class="muted">Private conversations</p>
+            </div>
+            <button class="ghost small" onclick="loadChats()">Refresh</button>
+          </div>
+          <div id="chats" class="chat-list"></div>
+
+          <hr>
+          <h3>New chat</h3>
+          <label>Title<input id="chatTitle" placeholder="Operations"></label>
+          <label>Members<input id="chatMembers" placeholder="user1, user2"></label>
+          <button class="primary" onclick="newChat()">Create secure chat</button>
+
+          <hr>
+          <h3>Conversation key</h3>
+          <label>Shared passphrase<input id="passphrase" type="password" placeholder="Shared outside this app"></label>
+          <p class="muted">The server stores ciphertext only. Without the shared passphrase, messages cannot be decrypted in this browser.</p>
+          <button class="ghost" onclick="requestNotify()">Enable notifications</button>
+        </aside>
+
+        <main class="card chat-window">
+          <div class="chat-top">
+            <div>
+              <h2 id="chatHeading">No chat selected</h2>
+              <p id="chatSub" class="muted">Choose or create a chat to begin.</p>
+            </div>
+            <span class="lock-badge">AES-GCM</span>
+          </div>
+          <div id="msgs" class="messages empty-state">Select a conversation.</div>
+          <div class="composer">
+            <textarea id="msgText" placeholder="Type an encrypted message..." rows="3"></textarea>
+            <button class="primary" onclick="sendMsg()">Send</button>
+          </div>
+        </main>
+
+        <aside id="adminPanel" class="card admin-card" hidden>
+          <div class="section-head">
+            <div>
+              <h2>Admin</h2>
+              <p class="muted">Invites, approvals and audit</p>
+            </div>
+          </div>
+          <button class="primary" onclick="makeInvite()">Create invite</button>
+          <pre id="inviteOut" class="codebox">No invite generated yet.</pre>
+          <button class="ghost" onclick="loadUsers()">Load users</button>
+          <div id="users"></div>
+          <button class="ghost" onclick="loadAudit()">Load audit log</button>
+          <div id="audit"></div>
+        </aside>
+      </div>
+    </section>
+
+    <div id="toast" class="toast" hidden></div>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
